@@ -1,0 +1,16 @@
+[90m= [39m[34;4mApp\Models\Vol[39;24m {#6645
+    [34mcode_vol[39m: "[32mAF123[39m",
+    [34mville_depart[39m: "[32mParis[39m",
+    [34mville_arrivee[39m: "[32mNew York[39m",
+    [34mdate_depart[39m: "[32m2024-03-15[39m",
+    [34mheure_depart[39m: "[32m08:00[39m",
+    [34mdate_arrivee[39m: "[32m2024-03-15[39m",
+    [34mheure_arrivee[39m: "[32m11:30[39m",
+    [34mtype_avion[39m: "[32mBoeing 777[39m",
+    [34mnombre_total_places[39m: [35m300[39m,
+    [34mnombre_places_disponibles[39m: [35m300[39m,
+    [34mupdated_at[39m: "[32m2025-09-01 15:45:02[39m",
+    [34mcreated_at[39m: "[32m2025-09-01 15:45:02[39m",
+    [34mid[39m: [35m1[39m,
+  }
+

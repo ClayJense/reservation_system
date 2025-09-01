@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroVoyage - Réservation de Vols Premium</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <i class="fas fa-plane"></i>
+                    AeroVoyage
+                </div>
+               
+                <div class="auth-buttons">
+                    <a href="/auth" class="btn btn-outline">Connexion</a>
+                    <a href="/auth" class="btn btn-primary">Inscription</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Voyagez vers l'extraordinaire</h1>
+                    <p>Découvrez le monde avec AeroVoyage - Votre partenaire de confiance pour des voyages inoubliables</p>
+                </div>
+
+                <div class="search-form">
+                    <div class="form-header">
+                        <div class="trip-type">
+                            <label>
+                                <input type="radio" name="trip" value="aller-retour" checked>
+                                Aller-retour
+                            </label>
+                            <label>
+                                <input type="radio" name="trip" value="aller-simple">
+                                Aller simple
+                            </label>
+                            <label>
+                                <input type="radio" name="trip" value="multi-destinations">
+                                Multi-destinations
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="depart">Ville de départ</label>
+                            <input type="text" id="depart" placeholder="Paris (CDG)" value="Paris (CDG)">
+                            <i class="fas fa-plane-departure"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="arrivee">Ville d'arrivée</label>
+                            <input type="text" id="arrivee" placeholder="New York (JFK)">
+                            <i class="fas fa-plane-arrival"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="date-depart">Date de départ</label>
+                            <input type="date" id="date-depart">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="date-retour">Date de retour</label>
+                            <input type="date" id="date-retour">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="passengers-class">
+                        <div class="form-group">
+                            <label for="passagers">Passagers</label>
+                            <select id="passagers">
+                                <option value="1">1 Passager</option>
+                                <option value="2">2 Passagers</option>
+                                <option value="3">3 Passagers</option>
+                                <option value="4">4 Passagers</option>
+                                <option value="5+">5+ Passagers</option>
+                            </select>
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="classe">Classe</label>
+                            <select id="classe">
+                                <option value="economique">Économique</option>
+                                <option value="premium">Premium Economy</option>
+                                <option value="affaires">Classe Affaires</option>
+                                <option value="premiere">Première Classe</option>
+                            </select>
+                            <i class="fas fa-crown"></i>
+                        </div>
+                    </div>
+
+                    <button class="search-btn" onclick="searchFlights()">
+                        <i class="fas fa-search"></i>
+                        Rechercher des vols
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Pourquoi choisir AeroVoyage ?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Réservation Sécurisée</h3>
+                        <p>Vos données sont protégées par un cryptage de niveau bancaire pour une tranquillité d'esprit totale</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Support 24/7</h3>
+                        <p>Notre équipe d'experts est disponible 24h/24 et 7j/7 pour vous accompagner dans tous vos voyages</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <h3>Meilleurs Prix</h3>
+                        <p>Nous comparons plus de 500 compagnies aériennes pour vous offrir les tarifs les plus avantageux</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Application Mobile</h3>
+                        <p>Gérez vos réservations, check-in et cartes d'embarquement directement depuis votre smartphone</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="destinations">
+            <div class="container">
+                <h2>Destinations Populaires</h2>
+                <div class="destinations-grid">
+                    <div class="destination-card" onclick="searchDestination('tokyo')">
+                        <div class="destination-image">
+                            🗾
+                        </div>
+                        <div class="destination-info">
+                            <h3>Tokyo, Japon</h3>
+                            <p class="destination-price">À partir de 629€</p>
+                        </div>
+                    </div>
+                    <div class="destination-card" onclick="searchDestination('newyork')">
+                        <div class="destination-image">
+                            🗽
+                        </div>
+                        <div class="destination-info">
+                            <h3>New York, USA</h3>
+                            <p class="destination-price">À partir de 349€</p>
+                        </div>
+                    </div>
+                    <div class="destination-card" onclick="searchDestination('dubai')">
+                        <div class="destination-image">
+                            🏙️
+                        </div>
+                        <div class="destination-info">
+                            <h3>Dubaï, EAU</h3>
+                            <p class="destination-price">À partir de 299€</p>
+                        </div>
+                    </div>
+                    <div class="destination-card" onclick="searchDestination('londres')">
+                        <div class="destination-image">
+                            🏰
+                        </div>
+                        <div class="destination-info">
+                            <h3>Londres, UK</h3>
+                            <p class="destination-price">À partir de 89€</p>
+                        </div>
+                    </div>
+                    <div class="destination-card" onclick="searchDestination('sydney')">
+                        <div class="destination-image">
+                            🦘
+                        </div>
+                        <div class="destination-info">
+                            <h3>Sydney, Australie</h3>
+                            <p class="destination-price">À partir de 799€</p>
+                        </div>
+                    </div>
+                    <div class="destination-card" onclick="searchDestination('singapour')">
+                        <div class="destination-image">
+                            🌆
+                        </div>
+                        <div class="destination-info">
+                            <h3>Singapour</h3>
+                            <p class="destination-price">À partir de 549€</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AeroVoyage</h3>
+                    <p>Votre compagnon de voyage de confiance depuis 2020. Nous nous engageons à vous offrir les meilleures expériences de voyage avec un service client exceptionnel.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Réservation de vols</a></li>
+                        <li><a href="#">Gestion des réservations</a></li>
+                        <li><a href="#">Enregistrement en ligne</a></li>
+                        <li><a href="#">Programme fidélité</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">Nous contacter</a></li>
+                        <li><a href="#">Statut des vols</a></li>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Suivez-nous</h3>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <a href="#" style="color: #667eea; font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: #667eea; font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #667eea; font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #667eea; font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AeroVoyage. Tous droits réservés. | Politique de confidentialité | Mentions légales</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/script_client.js"></script>
+</body>
+</html>

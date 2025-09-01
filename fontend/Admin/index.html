@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroVoyage - Administration</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Page de connexion -->
+    <div id="login-page" class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-plane"></i>
+                    AeroVoyage
+                </div>
+                <h2 class="login-title">Administration</h2>
+                <p class="login-subtitle">Connectez-vous pour accéder au tableau de bord</p>
+            </div>
+
+            <div id="alert-container"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" id="login-btn" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Se connecter
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-plane"></i>
+                    AeroVoyage Admin
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-item">
+                    <a class="nav-link active" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Tableau de bord
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" onclick="showSection('vols')">
+                        <i class="fas fa-plane-departure"></i>
+                        Gestion des vols
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" onclick="showSection('reservations')">
+                        <i class="fas fa-ticket-alt"></i>
+                        Réservations
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" onclick="showSection('statistiques')">
+                        <i class="fas fa-chart-bar"></i>
+                        Statistiques
+                    </a>
+                </div>
+            </nav>
+
+            <div class="user-info">
+                <div class="user-avatar">
+                    <div class="avatar" id="user-avatar">A</div>
+                    <div>
+                        <div id="user-name">Admin</div>
+                        <div style="font-size: 0.8rem; color: #cbd5e0;">Administrateur</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Déconnexion
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="topbar">
+                <h1 class="page-title" id="page-title">Tableau de bord</h1>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span id="current-time"></span>
+                    <i class="fas fa-bell" style="color: #718096; font-size: 1.2rem;"></i>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Total Vols</span>
+                                <div class="stat-icon">
+                                    <i class="fas fa-plane"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="total-vols">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Vols ce mois</span>
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="vols-mois">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Taux occupation</span>
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="taux-occupation">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Revenus mensuels</span>
+                                <div class="stat-icon">
+                                    <i class="fas fa-euro-sign"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="revenus-mensuels">-</div>
+                        </div>
+                    </div>
+
+                    <div class="data-table">
+                        <div class="table-header">
+                            <h3 class="table-title">Dernières réservations</h3>
+                        </div>
+                        <div id="recent-reservations">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Chargement...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vols Section -->
+                <div id="vols-section" class="section" style="display: none;">
+                    <div class="data-table">
+                        <div class="table-header">
+                            <h3 class="table-title">Gestion des vols</h3>
+                            <button class="btn btn-primary" onclick="showAddVolModal()">
+                                <i class="fas fa-plus"></i>
+                                Nouveau vol
+                            </button>
+                        </div>
+                        <div id="vols-table">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Chargement des vols...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Réservations Section -->
+                <div id="reservations-section" class="section" style="display: none;">
+                    <div class="data-table">
+                        <div class="table-header">
+                            <h3 class="table-title">Toutes les réservations</h3>
+                            <div style="display: flex; gap: 1rem;">
+                                <select id="filter-statut" onchange="loadReservations()">
+                                    <option value="">Tous les statuts</option>
+                                    <option value="confirme">Confirmé</option>
+                                    <option value="en_attente">En attente</option>
+                                    <option value="annule">Annulé</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="reservations-table">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Chargement des réservations...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistiques Section -->
+                <div id="statistiques-section" class="section" style="display: none;">
+                    <h2>Statistiques détaillées</h2>
+                    <p>Section en cours de développement...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nouveau Vol -->
+    <div id="add-vol-modal" class="form-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nouveau Vol</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="add-vol-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Code vol</label>
+                        <input type="text" name="code_vol" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type d'avion</label>
+                        <input type="text" name="type_avion" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ville de départ</label>
+                        <input type="text" name="ville_depart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ville d'arrivée</label>
+                        <input type="text" name="ville_arrivee" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date de départ</label>
+                        <input type="date" name="date_depart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Heure de départ</label>
+                        <input type="time" name="heure_depart" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date d'arrivée</label>
+                        <input type="date" name="date_arrivee" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Heure d'arrivée</label>
+                        <input type="time" name="heure_arrivee" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nombre total de places</label>
+                    <input type="number" name="nombre_total_places" required min="1">
+                </div>
+                <!-- Remplacer cette partie dans le formulaire -->
+<h4>Configuration des classes</h4>
+<div class="form-row">
+    <div class="form-group">
+        <label>Économique</label>
+        <input type="number" name="economique" min="0" value="0" required>
+    </div>
+    <div class="form-group">
+        <label>Affaires</label>
+        <input type="number" name="affaires" min="0" value="0" required>
+    </div>
+</div>
+                <div class="form-row">
+                    <button type="button" class="btn" onclick="closeModal()" style="background: #718096;">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Créer le vol</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
