@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Espace - AeroVoyage</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css//style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-plane"></i>
+                AeroVoyage
+            </div>
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span id="userName">Chargement...</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Déconnexion
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <ul class="sidebar-nav">
+                <li><a href="#" class="nav-link active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                <li><a href="#" class="nav-link" data-section="search"><i class="fas fa-search"></i> Rechercher un vol</a></li>
+                <li><a href="#" class="nav-link" data-section="reservations"><i class="fas fa-ticket-alt"></i> Mes réservations</a></li>
+                <li><a href="#" class="nav-link" data-section="profile"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Retour accueil</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="alert" class="alert"></div>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="page-header">
+                    <h1 class="page-title">Tableau de bord</h1>
+                    <p class="page-subtitle">Bienvenue dans votre espace personnel AeroVoyage</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalReservations">0</div>
+                        <div class="stat-label">Réservations totales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeReservations">0</div>
+                        <div class="stat-label">Réservations actives</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalFlights">0</div>
+                        <div class="stat-label">Vols effectués</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Réservations récentes</h2>
+                    </div>
+                    <div id="recentReservations">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search Section -->
+            <section id="search" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">Rechercher un vol</h1>
+                    <p class="page-subtitle">Trouvez le vol parfait pour votre prochain voyage</p>
+                </div>
+
+                <div class="search-form">
+                    <form id="flightSearchForm">
+    <div class="form-row">
+        <div class="form-group">
+            <label for="ville_depart">Ville de départ</label>
+            <input type="text" id="ville_depart" name="ville_depart" placeholder="Paris" required>
+        </div>
+        <div class="form-group">
+            <label for="ville_arrivee">Ville d'arrivée</label>
+            <input type="text" id="ville_arrivee" name="ville_arrivee" placeholder="New York" required>
+        </div>
+        <div class="form-group">
+            <label for="date_depart">Date de départ</label>
+            <input type="date" id="date_depart" name="date_depart" required>
+        </div>
+        <div class="form-group">
+            <label for="date_retour">Date de retour</label>
+            <input type="date" id="date_retour" name="date_retour">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="adultes">Nombre d’adultes</label>
+            <select id="adultes" name="adultes" required>
+                <option value="1">1 Adulte</option>
+                <option value="2">2 Adultes</option>
+                <option value="3">3 Adultes</option>
+                <option value="4">4 Adultes</option>
+                <option value="5">5 Adultes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="enfants">Enfants</label>
+            <select id="enfants" name="enfants">
+                <option value="0">0</option>
+                <option value="1">1 Enfant</option>
+                <option value="2">2 Enfants</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="bebes">Bébés</label>
+            <select id="bebes" name="bebes">
+                <option value="0">0</option>
+                <option value="1">1 Bébé</option>
+                <option value="2">2 Bébés</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="classe">Classe</label>
+            <select id="classe" name="classe">
+                <option value="eco">Économique</option>
+                <option value="affaires">Classe Affaires</option>
+                <option value="premiere">Première Classe</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="search-btn">
+        <i class="fas fa-search"></i>
+        Rechercher des vols
+    </button>
+</form>
+
+                </div>
+
+                <div id="searchResults" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Résultats de recherche</h2>
+                        </div>
+                        <div id="flightResults"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reservations Section -->
+            <section id="reservations" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">Mes réservations</h1>
+                    <p class="page-subtitle">Gérez toutes vos réservations de vols</p>
+                </div>
+
+                <div id="reservationsList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">Mon profil</h1>
+                    <p class="page-subtitle">Gérez vos informations personnelles</p>
+                </div>
+
+                <div class="card">
+                    <form id="profileForm" class="profile-form">
+                        <div class="form-group">
+                            <label for="profileNom">Nom complet</label>
+                            <input type="text" id="profileNom" name="nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">Adresse email</label>
+                            <input type="email" id="profileEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePassword">Nouveau mot de passe (optionnel)</label>
+                            <input type="password" id="profilePassword" name="password" minlength="8">
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePasswordConfirm">Confirmer le mot de passe</label>
+                            <input type="password" id="profilePasswordConfirm" name="password_confirmation">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Sauvegarder
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="loadProfile()">
+                                <i class="fas fa-undo"></i>
+                                Annuler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>

@@ -14,38 +14,57 @@ class VolController extends Controller
 {
     // Recherche de vols
     public function rechercherVols(Request $request)
-    {
-        $request->validate([
-            'ville_depart' => 'required|string',
-            'ville_arrivee' => 'required|string',
-            'date_depart' => 'required|date',
-            'date_retour' => 'nullable|date|after_or_equal:date_depart',
-            'adultes' => 'required|integer|min:1',
-            'enfants' => 'integer|min:0',
-            'bebes' => 'integer|min:0',
-            'classe' => 'nullable|in:eco,affaires,premiere'
-        ]);
+{
+    $request->validate([
+        'ville_depart' => 'required|string',
+        'ville_arrivee' => 'required|string',
+        'date_depart' => 'required|date',
+        'date_retour' => 'nullable|date|after_or_equal:date_depart',
+        'adultes' => 'required|integer|min:1',
+        'enfants' => 'integer|min:0',
+        'bebes' => 'integer|min:0',
+        'classe' => 'nullable|in:eco,affaires,premiere'
+    ]);
 
-        $volsAller = Vol::where('ville_depart', $request->ville_depart)
-            ->where('ville_arrivee', $request->ville_arrivee)
-            ->whereDate('date_depart', $request->date_depart)
-            ->where('nombre_places_disponibles', '>=', $request->adultes + $request->enfants)
-            ->get();
+    $placesDemandees = $request->adultes + $request->enfants + $request->bebes;
 
-        $volsRetour = [];
-        if ($request->date_retour) {
-            $volsRetour = Vol::where('ville_depart', $request->ville_arrivee)
-                ->where('ville_arrivee', $request->ville_depart)
-                ->whereDate('date_depart', $request->date_retour)
-                ->where('nombre_places_disponibles', '>=', $request->adultes + $request->enfants)
-                ->get();
-        }
+    // vols aller
+    $volsAller = Vol::where('ville_depart', $request->ville_depart)
+        ->where('ville_arrivee', $request->ville_arrivee)
+        ->whereDate('date_depart', $request->date_depart)
+        ->get()
+        ->filter(function ($vol) use ($request, $placesDemandees) {
+            if ($request->classe) {
+                return isset($vol->classes[$request->classe]) 
+                       && $vol->classes[$request->classe] >= $placesDemandees;
+            }
+            return $vol->nombre_total_places >= $placesDemandees;
+        })
+        ->values();
 
-        return response()->json([
-            'vols_aller' => $volsAller,
-            'vols_retour' => $volsRetour
-        ]);
+    // vols retour
+    $volsRetour = collect();
+    if ($request->date_retour) {
+        $volsRetour = Vol::where('ville_depart', $request->ville_arrivee)
+            ->where('ville_arrivee', $request->ville_depart)
+            ->whereDate('date_depart', $request->date_retour)
+            ->get()
+            ->filter(function ($vol) use ($request, $placesDemandees) {
+                if ($request->classe) {
+                    return isset($vol->classes[$request->classe]) 
+                           && $vol->classes[$request->classe] >= $placesDemandees;
+                }
+                return $vol->nombre_total_places >= $placesDemandees;
+            })
+            ->values();
     }
+
+    return response()->json([
+        'vols_aller' => $volsAller,
+        'vols_retour' => $volsRetour
+    ]);
+}
+
 
     // Détails d'un vol
     public function detailsVol($id)
